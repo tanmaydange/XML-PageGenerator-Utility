@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<product id="PO4">
+    <description>DESCRIPTION</description>
+    <imageUrl>IMAGE_URL</imageUrl>
+    <price>PRICE</price>
+    <createdBy>
+        <email>EMAIL</email>
+        <id>ID</id>
+        <name>NAME</name>
+    </createdBy>
+</product>
