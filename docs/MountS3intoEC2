@@ -1,0 +1,69 @@
+Steps: [https://cloudkul-com.cdn.ampproject.org/v/s/cloudkul.com/blog/mounting-s3-bucket-linux-ec2-instance/amp/?amp\_js\_v=a6&amp\_gsa=1&usqp=mq331AQKKAFQArABIIACAw%3D%3D#aoh=16277389121071&referrer=https%3A%2F%2Fwww.google.com&amp\_tf=From %1%24s&ampshare=https%3A%2F%2Fcloudkul.com%2Fblog%2Fmounting-s3-bucket-linux-ec2-instance%2F](https://cloudkul-com.cdn.ampproject.org/v/s/cloudkul.com/blog/mounting-s3-bucket-linux-ec2-instance/amp/?amp_js_v=a6&amp_gsa=1&usqp=mq331AQKKAFQArABIIACAw%3D%3D#aoh=16277389121071&referrer=https%3A%2F%2Fwww.google.com&amp_tf=From%20%251%24s&ampshare=https%3A%2F%2Fcloudkul.com%2Fblog%2Fmounting-s3-bucket-linux-ec2-instance%2F)
+
+**Step-1:-** If you are using a new centos or ubuntu instance. Update the system
+
+yum update all
+
+![e968a74a996a043579e2a456427c1ec7.png](:/9b696a1394274671b521d1fcd316cb1b)
+
+**Step-2:-** Install the dependencies.
+
+sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+
+![2061bd494d791bfc97cdbbf4abeef096.png](:/6a5c2058e96f4875a45dc58e38c74334)
+
+**Step-3:-** Clone s3fs source code from git.
+
+git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+
+![b03722cb42235952d260e113d998ea64.png](:/733ac0b1ab7f42318e621079e3af723f)
+
+**Step-4:-** Now change to source code  directory, and compile and install the code with the following commands:
+
+|     |     |
+| --- | --- |
+| 1<br>2<br>3<br>4<br>5 | cd s3fs-fuse<br>./autogen.sh<br>./configure --prefix=/usr --with-openssl<br>make<br>sudo make install |
+
+**Step-5:-** Use below command to check where s3fs command is placed in O.S. It will also tell you the installation is ok.
+
+which s3fs
+
+**Step-6:-** Getting the access key and secret key.
+
+**Step-7 :-** Create a new file in /etc with the name passwd-s3fs and Paste the access key and secret key in the below format .
+
+touch /etc/passwd-s3fs
+
+vim /etc/passwd-s3fs
+
+Your\_accesskey:Your\_secretkey
+
+**Step-8:-** change the permission of file
+
+sudo chmod 640 /etc/passwd-s3fs
+
+**Step-9:-** Now create a directory or provide the path of an existing directory and mount S3bucket in it.
+
+mkdir /mys3bucket
+
+sudo s3fs migration-framework-bucket mys3bucket -o use\_cache=/tmp -o allow\_other -o uid=1001 -o mp\_umask=002 -o multireq\_max=5 -o use\_path\_request_style -o url=https://s3-ap-south-1.amazonaws.com
+
+![215334a230a163b03791f54c4472cd19.png](:/f5cd77ac4e0c42e191fdd45274b3b4c3)
+
+Trying to list contents of S3 bucket and make copy of the files inside.
+
+![a991d114a68b1fdf4f4d87ab42313648.png](:/59b36a31cd24424b80ef062970212e32)
+
+![a11ad7ec45fa2567bc3239234afcc4fb.png](:/6bb9f758e978474cbf08c605bb63cb5b)
+
+mkdir /mys3bucket
+
+sudo s3fs migration-framework-bucket mys3bucket -o use\_cache=/tmp -o allow\_other -o uid=1001 -o mp\_umask=002 -o multireq\_max=5 -o use\_path\_request_style -o url=https://s3-ap-south-1.amazonaws.com
+
+![215334a230a163b03791f54c4472cd19.png](file:///home/tanmay/.config/joplin-desktop/resources/f5cd77ac4e0c42e191fdd45274b3b4c3.png)
+
+Trying to list contents of S3 bucket and make copy of the files inside.
+
+![a991d114a68b1fdf4f4d87ab42313648.png](file:///home/tanmay/.config/joplin-desktop/resources/59b36a31cd24424b80ef062970212e32.png)
+
+![a11ad7ec45fa2567bc3239234afcc4fb.png](file:///home/tanmay/.config/joplin-desktop/resources/6bb9f758e978474cbf08c605bb63cb5b.png)
