@@ -1,3 +1,4 @@
 output
 note.txt
 *.pyc
+logs/

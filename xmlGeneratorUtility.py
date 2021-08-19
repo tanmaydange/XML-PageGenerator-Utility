@@ -1,10 +1,13 @@
 #!/usr/bin/python
 
-
+from datetime import datetime
 import xml.etree.ElementTree as ET
 import dataLoader as dl
 
 inputList =[]
+
+def log(string):
+    print(str(datetime.now())+" | INFO | "+string)
 
 def replaceFields(filedName, fieldValue,root):
     for elem in root.getiterator():
@@ -26,11 +29,10 @@ def generatePages(inputList):
             root.attrib['id'] = input.get('ID')
             for key in getKeys(input):
                 replaceFields(key, input.get(key),root)
-        print('Saving File..'+"output-"+str(i)+".xml")
-        tree.write("output/output-"+str(i)+".xml")
+	log('Saving File..'+"output-"+str(i)+".xml")
+        tree.write("s3bucket/output/output-"+str(i)+".xml")
         i=i+1
-        print("")
 
 if __name__ == "__main__":
-    inputList=dl.readCsvFile('input.csv')
+    inputList=dl.readCsvFile('s3bucket/input/input.csv')
     generatePages(inputList)
